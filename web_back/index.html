@@ -112,30 +112,15 @@
     </script>
     <!-- 引入接口配置 -->
     <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/user.js"></script>
     <script>
         // 用户登出
         $("#logout").click(function () {
-            $.post(APILIST.user_logout)
-                .then(function (res) {
-                    if (res.code === 200) {
-                        window.location.href = './login.html'
-                    } else {
-                        alert(res.msg)
-                    }
-                })
+            user.logout()
         })
 
         // 获取管理员信息，并显示
-        $.get(APILIST.user_Info)
-            .then(function (res) {
-                if (res.code === 200) {
-                    $("#userName").text(res.data.nickname);
-                    $(".user_pic").attr('src',res.data.user_pic)
-                } else {
-                    alert(res.msg)
-                }
-
-            })
+        user.logInfo()
     </script>
 
 </body>

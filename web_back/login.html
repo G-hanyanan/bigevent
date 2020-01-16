@@ -34,23 +34,13 @@
     <script src="./js/jquery-1.12.4.min.js"></script>
     <!-- 引入接口配置 -->
     <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/user.js"></script>
     <script>
         // 用户登录
         $("#btnLogin").click(function () {
             var name = $("#username").val().trim();
             var password = $("#password").val().trim();
-            $.post(APILIST.user_login, {
-                'user_name': name,
-                'password': password
-            }).then(function (res) {
-                if(res.code === 200) {
-                //    alert('登录成功') 
-                window.location.href = './index.html'
-                } else {
-                    alert(res.msg)
-                }
-                
-            })
+            user.login(name,password)
         })
 
 
