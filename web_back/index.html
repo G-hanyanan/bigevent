@@ -110,11 +110,12 @@
         }
 
     </script>
-
+    <!-- 引入接口配置 -->
+    <script src="./js/utils/config.js"></script>
     <script>
         // 用户登出
         $("#logout").click(function () {
-            $.post('http://192.168.172.82:8000/admin/logout')
+            $.post(APILIST.user_logout)
                 .then(function (res) {
                     if (res.code === 200) {
                         window.location.href = './login.html'
@@ -125,7 +126,7 @@
         })
 
         // 获取管理员信息，并显示
-        $.get('http://192.168.172.82:8000/admin/getuser')
+        $.get(APILIST.user_Info)
             .then(function (res) {
                 if (res.code === 200) {
                     $("#userName").text(res.data.nickname);
