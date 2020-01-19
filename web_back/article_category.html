@@ -28,17 +28,7 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>未分类</td>
-                        <td>uncategorized</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
+                <tbody id="category_tbd">
                     <tr>
                         <td>奇趣事</td>
                         <td>funny</td>
@@ -48,31 +38,12 @@
                             <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>会生活</td>
-                        <td>living</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>爱旅行</td>
-                        <td>travel</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
-                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addModal">新增分类</a>
+                            <a href="#" class="btn btn-success" id="article_btn" data-toggle="modal"
+                                data-target="#addModal">新增分类</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -91,11 +62,11 @@
                     <form>
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">分类名称:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="article_name">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">分类别名:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="article_sulg">
                         </div>
                     </form>
                 </div>
@@ -106,6 +77,10 @@
             </div>
         </div>
     </div>
+
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="./js/template-web.js"></script>
 
     <script>
         // $('#addModal').modal({
@@ -129,6 +104,53 @@
         //         $('#addModal').modal('show');
         //     }
         // })      
+    </script>
+
+    <script type="text/html" id="category_list">
+        {{each data item}}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
+                    class="btn btn-info btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script>
+
+        category.category_get().then(function (res) {
+            if (res.code === 200) {
+                var htmlStr = template('category_list', res);
+                $("#category_tbd").append(htmlStr)
+            } else {
+                alert(res.msg)
+            }
+
+        })
+        // 文章类别新增
+        $("#article_btn").on('click', function () {
+            $('#addModal').show();
+            $("#model_add").on('click', function () {
+
+                var article_name = $("#article_name").val();
+                var article_sulg = $("#article_sulg").val();
+                category.category_add(article_name, article_sulg).then(function (res) {
+                    if(res.code === 200){
+                        alert("增加成功")
+                    } else {
+                        alert(res.msg)
+                    }
+
+                })
+                $('#addModal').modal('hide');
+            })
+        })
+
+
     </script>
 
 </body>

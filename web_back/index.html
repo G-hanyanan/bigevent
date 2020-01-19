@@ -117,7 +117,9 @@
         // 用户登出
         $("#logout").click(function () {
             user.logout()
-                .then(function (res) {
+            console.log(user.logout());
+            
+            user.logout().then(function (res) {
                     if (res.code === 200) {
                         alert('退出成功')
                         window.location.href = './login.html'
