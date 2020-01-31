@@ -20,4 +20,8 @@ var APILIST = {
     // 编辑
     category_edit: BASEURL + '/admin/category_edit',
 
+    // 文章列表接口
+    // 获取
+    article_get:BASEURL + '/admin/search',
+
 }
