@@ -12,6 +12,10 @@ var category = {
     // 删除
     del:function (id) {
         return $.post(APILIST.category_del,{'id':id})
+    },
+    // 编辑
+    edit:function (id,name,slug) {
+        return $.post(APILIST.category_edit,{'id':id,'name':name,'slug':slug})
     }
 
 }
