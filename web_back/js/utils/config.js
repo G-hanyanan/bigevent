@@ -1,6 +1,6 @@
 // 所有接口的基地址
 
-var BASEURL = 'http://192.168.1.106:8000'
+var BASEURL = 'http://192.168.43.131:8000'
 
 // 所有子接口
 
@@ -15,4 +15,7 @@ var APILIST = {
     category_get: BASEURL + '/admin/category_search',
     // 新增
     category_add: BASEURL + '/admin/category_add',
+    // 删除‘
+    category_del: BASEURL + '/admin/category_delete',
+
 }
