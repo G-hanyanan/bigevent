@@ -10,9 +10,9 @@ var article = {
     //     return $.post(APILIST.article_add, { 'name': name, 'slug': slug })
     // },
     // // 删除
-    // del:function (id) {
-    //     return $.post(APILIST.article_del,{'id':id})
-    // },
+    del:function (id) {
+        return $.get(APILIST.article_del,{'id':id})
+    },
     // // 编辑
     // edit:function (id,name,slug) {
     //     return $.post(APILIST.article_edit,{'id':id,'name':name,'slug':slug})

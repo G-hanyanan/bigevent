@@ -23,5 +23,7 @@ var APILIST = {
     // 文章列表接口
     // 获取
     article_get:BASEURL + '/admin/search',
+    // 删除
+    article_del:BASEURL + '/admin/article_delete',
 
 }
