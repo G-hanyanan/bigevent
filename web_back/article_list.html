@@ -30,11 +30,11 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button type="button" id="btnSearch" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -69,8 +69,9 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
-                    <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                <!-- 分页 -->
+                <ul id="pagination-demo" class="pagination pagination-sm">
+                    <!-- <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
                     <li class="page-item"><a href="#" class="page-link">2</a></li>
@@ -80,7 +81,7 @@
                     <li class="page-item"><a href="#" class="page-link">6</a></li>
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li> -->
                 </ul>
             </div>
 
@@ -90,6 +91,7 @@
     <script src="./js/utils/category.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/article.js"></script>
+    <script src="./js/jquery.twbsPagination.js"></script>
     <script>
         // 设置左侧菜单
         $('#release_btn').click(function () {
@@ -98,9 +100,9 @@
     </script>
     <!-- 文章所有分类模板 -->
     <script id="tem_category" type="text/html">
-        <option>所有分类</option>
+        <option value = ''>所有分类</option>
         {{each data item}}
-            <option>{{item.name}}</option>
+            <option value ={{item.id}}>{{item.name}}</option>
         {{/each}}
     </script>
     <!-- 文章列表模板 -->
@@ -120,6 +122,11 @@
         {{/each}}
     </script>
     <script>
+        var CurPage = 1;
+        var type = '';
+        var status = '';
+        var CurTotalPages;
+
         // 获取所有分类，显示在下拉列表中
         category.get().then(function (res) {
             var htmlStr = template('tem_category', res);
@@ -127,16 +134,51 @@
         })
 
         // 获取文章列表，并显示在表格中
-        article.get().then(function (res) {
-            if (res.code === 200) {
-                // 渲染到页面
-                var htmlStr = template('tem_table', res);
-                $("#tbody").html(htmlStr)
-            } else {
-                alert(res.msg)
-            }
+        function getAndShow() {
+            article.get(CurPage,type,status).then(function (res) {
+                if (res.code === 200) {
+                    // 渲染到页面
+                    var htmlStr = template('tem_table', res);
+                    $("#tbody").html(htmlStr);
+                    // 解决筛选时，总页码发生改变的BUG
+                    // 如果总页码发生改变，就将分页器摧毁重建
+                    if (CurTotalPages !==res.totalPage ) {
+                        $('#pagination-demo').twbsPagination('destroy')
+                        CurTotalPages = res.totalPage; 
+                        
+                    }
+                    // 分页器
+                    $('#pagination-demo').twbsPagination({
+                        totalPages: res.totalPage,
+                        visiblePages: 6,
+                        first: '首页',
+                        last: '尾页',
+                        prev: '上一页',
+                        next: '下一页',
+                        initiateStartPageClick: false,
+                        onPageClick: function (event, page) {
+                            // alert(page)
+                            CurPage = page;
+                            getAndShow()
+                        }
+                    });
+                } else {
+                    alert(res.msg)
+                }
+            })
+        }
+        // 初始化调用
+        getAndShow()
 
+        // 筛选功能
+        $("#btnSearch").click(function () {
+            CurPage = 1;
+            type = $("#selCategory").val();
+            status = $("#selStatus").val();
+            getAndShow()
         })
+
+
 
 
     </script>

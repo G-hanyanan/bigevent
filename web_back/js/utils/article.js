@@ -2,8 +2,8 @@
 
 var article = {
     // 获取
-    get: function () {
-        return $.get(APILIST.article_get)
+    get: function (page,type,status) {
+        return $.get(APILIST.article_get, { 'page': page , 'type':type , 'state':status})
     },
     // // 新增
     // add: function (name, slug) {
