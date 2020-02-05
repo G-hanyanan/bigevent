@@ -167,8 +167,8 @@
             }
             category.add(name, sulg).then(function (res) {
                 // 清空用户输入
-                $("#article_name").val("");
-                $("#article_sulg").val("");
+                $("#name").val("");
+                $("#sulg").val("");
                 // 隐藏模态框
                 $('#addModal').modal('hide');
                 // 重新获取数据
@@ -188,12 +188,15 @@
         // 文章类别删除
         // 事件委托
         $("#category_tbd").on('click','#del',function () {
+            if (!confirm('确定删除吗？')) {
+                return
+            }
             var id = $(this).attr('data-id');
 
             // alert($(this).attr('data-id'))
             category.del(id).then(function (res) {
                 if (res.code===200) {
-                    alert(res.msg)
+                    // alert(res.msg)
                     getAndShow()
                 } else {
                     alert(res.msg)

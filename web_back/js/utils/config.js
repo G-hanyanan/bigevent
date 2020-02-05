@@ -1,6 +1,7 @@
 // 所有接口的基地址
 
-var BASEURL = 'http://192.168.1.106:8000'
+var BASEURL = 'http://localhost:8000'
+// var BASEURL = 'http://192.168.1.106:8000'
 
 // 所有子接口
 
