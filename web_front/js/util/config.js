@@ -11,15 +11,21 @@ var APILIST = {
     // 显示
     category_get: BASEURL + '/category',
     
-    // 文章热门排行
-    category_rank:BASEURL + '/rank',
-
-    // 热门文章图片说明
-    category_search:BASEURL + '/search',
-
+    
     // 文章列表接口
     // 获取
     article_get:BASEURL + '/admin/search',
+    
+    // 文章热门排行
+    article_rank:BASEURL + '/rank',
+
+    // 热门文章图片说明
+    article_search:BASEURL + '/search',
+
+    // 最新资讯
+    article_lastest:BASEURL + '/lastest',
+
+
 
 
 }

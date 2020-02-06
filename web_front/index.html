@@ -233,7 +233,7 @@
     <!-- 导航栏文章类别模板 -->
     <script id="tem_cate" type="text/html">
         {{each data item}}
-            <li><a href="#">{{item.name}}</a></li>
+            <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
         {{/each}}
     </script>
     <!-- 热门排行模板 -->
@@ -250,7 +250,7 @@
         {{/if}}
         {{/each}}
     </script>
-    <!-- 图片说明 -->
+    <!-- 图片说明模板 -->
     <script id="tem_caption" type="text/html">
         {{each data item idx}}
         {{if idx == 0}}
@@ -266,13 +266,13 @@
         {{/if}}
         {{/each}}
     </script>
-    <!-- 最新资讯 -->
+    <!-- 最新资讯模板 -->
     <script id="tem_news" type="text/html">
         {{each data item}}
             <div class="common_news_list">
                 <a href="#" class="list_pic"><img src="{{item.cover}}" alt=""></a>
                 <h4><a href="#">{{item.title}} </a></h4>
-                <p>{{item.content}}
+                <p>{{item.intro}}
                 </p>
                 <div class="new_info">
                     <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{item.read}}
@@ -298,7 +298,7 @@
         })
 
         // 一周热门排行榜  
-        category.rank().then(function (res) {
+        article.rank().then(function (res) {
             if (res.code === 200) {
                 // 热门排行模板
                 var htmlStr = template('tem_hot', res)
@@ -309,24 +309,24 @@
         })
 
         // 热门 图片说明
-        // 最新资讯
-        category.hotImg(5).then(function (res) {
+        article.hotImg().then(function (res) {
             if (res.code === 200) {
-                console.log(res);
-
                 // 图片说明模板
                 var htmlStr = template('tem_caption', res);
                 $("#caption").html(htmlStr)
-
-                // 最新资讯
-                var news_info = template('tem_news',res)          
-                $("#news").html(news_info)
             } else {
                 alert(res.msg)
             }
         })
-
-
+        
+        
+        // 最新资讯
+        article.lastest().then(function (res) {
+            console.log(res);
+            var news_info = template('tem_news',res)          
+            $("#news").html(news_info)
+            
+        })
 
 
     </script>
