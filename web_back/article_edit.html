@@ -23,11 +23,11 @@
             文章编辑
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" value="文章标题文字">
+                        <input type="text" name="title" class="form-control" id="title" value="文章标题文字">
                     </div>
                 </div>
                 <div class="form-group">
@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="cate">
+                        <select class="form-control" name="type" id="cate">
                             <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
@@ -54,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" value="2019-05-17" id="dateinput">
+                            <input type="text" class="form-control" name="date" value="2019-05-17" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -83,6 +83,7 @@
 <script src="./js/utils/article.js"></script>
 <script src="./js/template-web.js"></script>
 <script src="./js/utils/category.js"></script>
+<!-- 所有分类模板 -->
 <script id="category" type="text/html">
     {{each data item}}
         <option value='{{item.id}}'>{{item.name}}</option>
@@ -120,6 +121,21 @@
         }
     })
     
+    // 点击修改，请求接口
+
+    $("#save").click(function () {
+        var fd = new FormData(document.getElementById('form'));
+        fd.append('id', id)
+        // 获取富文本的内容
+        fd.set('content', tinyMCE.activeEditor.getContent())
+        article.edit(fd).then(function (res) {
+            if (res.code === 200) {
+                alert('修改成功')
+            } else {
+                alert(res.msg)
+            }
+        })
+    })
 </script>
 
 </html>

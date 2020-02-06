@@ -22,6 +22,16 @@ var article = {
     // 通过id获取文章
     getById:function (id) {
         return $.get(APILIST.article_get,{'id':id})
-    }
+    },
+    // 编辑文章
+    edit: function (fd) {
+        return $.ajax({
+            url: APILIST.article_edit,
+            type: 'post',
+            data: fd ,
+            processData: false,
+            contentType: false
+        })
+    },
 
 }
