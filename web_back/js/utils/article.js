@@ -19,9 +19,9 @@ var article = {
     del: function (id) {
         return $.get(APILIST.article_del, { 'id': id })
     },
-    // // 编辑
-    // edit:function (id,name,slug) {
-    //     return $.post(APILIST.article_edit,{'id':id,'name':name,'slug':slug})
-    // }
+    // 通过id获取文章
+    getById:function (id) {
+        return $.get(APILIST.article_get,{'id':id})
+    }
 
 }

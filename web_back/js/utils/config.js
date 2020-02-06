@@ -2,6 +2,7 @@
 
 var BASEURL = 'http://localhost:8000'
 // var BASEURL = 'http://192.168.1.106:8000'
+// var BASEURL = 'http://39.99.130.170:8000'
 
 // 所有子接口
 
