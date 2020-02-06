@@ -31,12 +31,12 @@
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
                 <ul class="level_two">
                     <li class="up"></li>
-                    <li><a href="#">最 新</a></li>
+                    <!-- <li><a href="#">最 新</a></li>
                     <li><a href="#">科 技</a></li>
                     <li><a href="#">股 市</a></li>
                     <li><a href="#">商 品</a></li>
                     <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
+                    <li><a href="#">公 司</a></li> -->
                 </ul>
             </div>
             <ul class="left_menu fl">
@@ -60,10 +60,11 @@
                 当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
             </div>
             <h3 class="article_title" id="title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info"><span id="author"></span> 发布于 <span id="date"></span>&nbsp;&nbsp;&nbsp;分类: <span id="type_name"></span>&nbsp;&nbsp;&nbsp;阅读:
+            <div class="article_info"><span id="author"></span> 发布于 <span id="date"></span>&nbsp;&nbsp;&nbsp;分类: <span
+                    id="type_name"></span>&nbsp;&nbsp;&nbsp;阅读:
                 (<span id="read"></span>)&nbsp;&nbsp;&nbsp;评论: (<span id="comment"></span>)</div>
             <div class="article_con">
-<!-- 
+                <!-- 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
                 <p>马斯克投资的一家小型且不为人熟知的脑机接口（brain-computer
@@ -74,7 +75,7 @@
                 <p>在Neuralink递交给美国证券交易委员会（SEC）的材料中，并没有披露融资是否来自传统的风险投资者或者来自该公司的员工。</p>
 
                 <p>2016年，Neuralink在美国加利福尼亚州以医学研究公司的名义成立，之后一直低调运行。</p> -->
-                <p  id="content">在Neuralink递交给美国证券交易委员会（SEC）的材料中，并没有披露融资是否来自传统的风险投资者或者来自该公司的员工。</p>
+                <p id="content">在Neuralink递交给美国证券交易委员会（SEC）的材料中，并没有披露融资是否来自传统的风险投资者或者来自该公司的员工。</p>
 
             </div>
             <div class="article_links" id="article_links">
@@ -133,7 +134,7 @@
         <div class="right_con setfl">
             <div class="common_wrap">
                 <h3><i class="fa fa-bar-chart"></i> 一周热门排行</h3>
-                <ul class="content_list">
+                <ul class="content_list" id="hot_rank">
                     <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
                     <li><span class="second">2</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span class="third">3</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
@@ -216,18 +217,71 @@
         上一篇： <a href="article.html?id={{data.next.id}}">{{data.next.title}}</a><br>
         下一篇： <a href="article.html?id={{data.prev.id}}">{{data.prev.title}}</a>
     </script>
+    <!-- 导航栏文章类别模板 -->
+    <script id="tem_cate" type="text/html">
+        {{each data item}}
+             {{if item.id == curId}}
+                 <li class='cur'><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+             {{else}}
+                 <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+             {{/if}}
+        {{/each}}
+    </script>
+    <!-- 热门排行模板 -->
+    <script id="aaa" type="text/html">
+        {{each data item idx}}
+        {{if idx == 0}}
+            <li><span class='first'>{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+        {{else if idx == 1}}
+        <li><span class='second'>{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+        {{else if idx == 2}}
+            <li><span class='third'>{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+        {{else}}
+            <li><span>{{idx+1}}</span><a href="article.html?id={{item.id}}">{{item.title}}</a></li>
+        {{/if}}
+        {{/each}}
+    </script>
     <script>
         var id = window.location.search.substr(4);
         console.log(id);
+        // 获取文章类型列表
+        category.get().then(function (res) {
+            if (res.code === 200) {
+                // 补充数据
+                res.curId = id
+                // 导航栏文章类别模板
+                var htmlStr = template('tem_cate', res)
+                $(".level_two").append(htmlStr)
+                $(".left_menu").html(htmlStr)
+            } else {
+                alert(res.msg)
+            }
+        })
+
+        // 文章信息
         article.getById(id).then(function (res) {
             if (res.code === 200) {
-                console.log(res);
+
+                // 一周热门排行
+                article.rank(res.data.type_id).then(function (res) {
+                    if (res.code === 200) {
+                        
+                        // 热门排行模板
+                        var htmlStr = template('aaa', res)
+                        $("#hot_rank").html(htmlStr)
+                    } else {
+                        alert(res.msg)
+                    }
+                })
+                
                 // 文章标题
                 $("#title").text(res.data.title);
                 // 作者
                 $("#author").text(res.data.author);
                 // 发布时间
                 $("#date").text(res.data.date);
+                // 文章分类
+                $("#type_name").text(res.data.type_name);
                 // 阅读量
                 $("#read").text(res.data.read);
                 // 评论数量
@@ -235,14 +289,13 @@
                 // 文章内容
                 $("#content").html(res.data.content);
                 // 上、下一篇模板
-                var htmlStr = template('tem_links',res)
-                console.log(htmlStr);
+                var htmlStr = template('tem_links', res)
                 $("#article_links").html(htmlStr)
-                
+
             }
-            
+
         })
-        
+
 
     </script>
 </body>
