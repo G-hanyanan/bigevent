@@ -14,7 +14,7 @@ var APILIST = {
     
     // 文章列表接口
     // 获取
-    article_get:BASEURL + '/admin/search',
+    article_get:BASEURL + '/search',
     
     // 文章热门排行
     article_rank:BASEURL + '/rank',
@@ -25,7 +25,13 @@ var APILIST = {
     // 最新资讯
     article_lastest:BASEURL + '/lastest',
 
+    // 文章详情
+    article_info:BASEURL + '/article',
 
+
+    // 评论
+    // 最新评论
+    // comment_news:BASEURL + '/get_latest_comment',
 
 
 }

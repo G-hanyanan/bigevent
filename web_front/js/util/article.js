@@ -2,12 +2,12 @@
 
 var article = {
     // 获取
-    get: function (page, type, status) {
-        return $.get(APILIST.article_get, { 'page': page, 'type': type, 'state': status })
+    getList: function (type,page) {
+        return $.get(APILIST.article_get, {'type': type,'page':page})
     },
     // 热门排行
-    rank:function () {
-        return $.get(APILIST.article_rank)
+    rank:function (type) {
+        return $.get(APILIST.article_rank,{'type':type})
     },
     /**
      * 5张焦点图 
@@ -19,6 +19,11 @@ var article = {
     // 最新资讯
     lastest:function () {
         return $.get(APILIST.article_lastest)
+    },
+
+    // 文章详情
+    getById:function (id) {
+        return $.get(APILIST.article_info,{'id':id})        
     }
 
 }
