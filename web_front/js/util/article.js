@@ -6,5 +6,4 @@ var article = {
         return $.get(APILIST.article_get, { 'page': page, 'type': type, 'state': status })
     },
 
-
 }

@@ -10,9 +10,16 @@ var APILIST = {
     // 文章类别管理接口
     // 显示
     category_get: BASEURL + '/category',
+    
+    // 文章热门排行
+    category_rank:BASEURL + '/rank',
+
+    // 热门文章图片说明
+    category_search:BASEURL + '/search',
 
     // 文章列表接口
     // 获取
     article_get:BASEURL + '/admin/search',
+
 
 }
