@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <!-- bootbox.alert弹出框 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/bootbox.min.js"></script>
 </head>
 
 <body>
@@ -225,7 +230,7 @@
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
-    <script src="./js/jquery-1.12.4.min.js"></script>
+
     <script src="./js/template-web.js"></script>
     <script src="./js/util/config.js"></script>
     <script src="./js/util/category.js"></script>
@@ -293,7 +298,7 @@
                 $(".level_two").append(htmlStr)
                 $(".left_menu").html(htmlStr)
             } else {
-                alert(res.msg)
+                bootbox.alert(res.msg)
             }
         })
 
@@ -304,7 +309,7 @@
                 var htmlStr = template('tem_hot', res)
                 $("#hot_rank").html(htmlStr)
             } else {
-                alert(res.msg)
+                bootbox.alert(res.msg)
             }
         })
 
@@ -315,7 +320,7 @@
                 var htmlStr = template('tem_caption', res);
                 $("#caption").html(htmlStr)
             } else {
-                alert(res.msg)
+                bootbox.alert(res.msg)
             }
         })
         

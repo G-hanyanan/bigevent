@@ -15,6 +15,10 @@
     <script src="js/jedate/js/jedate.js"></script>
     <script src="js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="js/tinymce/js/tinymce_setup.js"></script>
+    <!-- bootbox.alert弹出框 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/bootbox.min.js"></script>
 </head>
 
 <body>
@@ -100,11 +104,11 @@
         fd.set('content', tinyMCE.activeEditor.getContent())
         article.add(fd).then(function (res) {
             if (res.code === 201) {
-               alert('发布成功') 
-               $("#myform")[0].reset()
+                bootbox.alert('发布成功')
+                $("#myform")[0].reset()
 
             }
-            
+
         })
     })
 
@@ -113,6 +117,8 @@
         if (res.code === 200) {
             var htmlStr = template('tem_list', res);
             $('.form-control').html(htmlStr)
+        } else {
+            bootbox.alert(res.msg)
         }
     })
 

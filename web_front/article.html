@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>大事件-文章</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script src="./js/jquery-1.12.4.min.js"></script>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>大事件-文章</title>
+        <link rel="stylesheet" type="text/css" href="css/reset.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="./js/jquery-1.12.4.min.js"></script>
+        <!-- alert弹出框 -->
+        <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+        <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="./js/bootbox.min.js"></script>
 </head>
 
 <body>
@@ -268,7 +272,8 @@
                 $(".level_two").append(htmlStr)
                 $(".left_menu").html(htmlStr)
             } else {
-                alert(res.msg)
+                // alert(res.msg)
+                bootbox.alert(res.msg)
             }
         })
 
@@ -284,7 +289,7 @@
                         var htmlStr = template('aaa', res)
                         $("#hot_rank").html(htmlStr)
                     } else {
-                        alert(res.msg)
+                        bootbox.alert(res.msg)
                     }
                 })
                 
@@ -333,7 +338,7 @@
                     $("#com_list").html('')
                     $("#com_list").html(htmlStr)
                 } else {
-                    alert(res.msg)
+                    bootbox.alert(res.msg)
                 }
             })
         }
@@ -346,15 +351,15 @@
             var content = $("#comment_content").val();
             // 判空
             if (!name ||!content) {
-                alert('不能为空')
+                bootbox.alert('不能为空')
                 return
             }
             comment.add(name,content,id).then(function (res) {
                 if(res.code === 200) {
-                    alert(res.msg);
+                    bootbox.alert(res.msg);
                     getComment()
                 } else {
-                    alert(res.msg)
+                    bootbox.alert(res.msg)
                 }
                 
             })

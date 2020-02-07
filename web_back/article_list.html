@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <!-- bootbox.alert弹出框 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/bootbox.min.js"></script>
 </head>
 
 <body>
@@ -135,17 +139,17 @@
 
         // 获取文章列表，并显示在表格中
         function getAndShow() {
-            article.get(CurPage,type,status).then(function (res) {
+            article.get(CurPage, type, status).then(function (res) {
                 if (res.code === 200) {
                     // 渲染到页面
                     var htmlStr = template('tem_table', res);
                     $("#tbody").html(htmlStr);
                     // 解决筛选时，总页码发生改变的BUG
                     // 如果总页码发生改变，就将分页器摧毁重建
-                    if (CurTotalPages !==res.totalPage ) {
+                    if (CurTotalPages !== res.totalPage) {
                         $('#pagination-demo').twbsPagination('destroy')
-                        CurTotalPages = res.totalPage; 
-                        
+                        CurTotalPages = res.totalPage;
+
                     }
                     // 分页器
                     $('#pagination-demo').twbsPagination({
@@ -163,7 +167,7 @@
                         }
                     });
                 } else {
-                    alert(res.msg)
+                    bootbox.alert(res.msg)
                 }
             })
         }
@@ -180,7 +184,7 @@
 
         // 文章删除
         // 给父容器注册事件委托
-        $("#tbody").on('click','.del',function () {
+        $("#tbody").on('click', '.del', function () {
             if (!confirm('你确定要删除吗?')) {
                 return
             }
@@ -189,9 +193,9 @@
                 if (res.code === 200) {
                     getAndShow()
                 } else {
-                    alert(res.msg)
+                    bootbox.alert(res.msg)
                 }
-                
+
             })
         })
 
