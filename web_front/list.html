@@ -311,8 +311,7 @@
     function getAndShow(params) {
         article.getList(id,CurPage).then(function (res) {
             if (res.code === 200) {
-                console.log(res);
-                
+
                 // 文章列表模板
                 var htmlStr = template('tem_list', res);
                 $("#list_content").html(htmlStr);
