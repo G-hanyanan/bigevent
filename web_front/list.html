@@ -282,49 +282,62 @@
     {{/each}}
 </script>
 <script>
-    var id = window.location.search.substr(4)
-    var CurPage = 1;
+    let id = window.location.search.substr(4)
+    let CurPage = 1;
 
     // 显示导航菜单，并当前菜单高亮显示
     // 获取文章类型列表
     category.get().then(function (res) {
-        if (res.code === 200) {
+        let {
+            code,
+            msg,
+        } = res
+        if (code === 200) {
             // 补充数据
             res.curId = id
             // 导航栏文章类别模板
-            var htmlStr = template('tem_cate', res)
+            let htmlStr = template('tem_cate', res)
             $(".level_two").append(htmlStr)
             $(".left_menu").html(htmlStr)
         } else {
-            bootbox.alert(res.msg)
+            bootbox.alert(msg)
         }
     })
 
     // 一周热门排行
     article.rank(id).then(function (res) {
-        if (res.code === 200) {
+        let {
+            code,
+            msg,
+        } = res
+        if (code === 200) {
             // 热门排行模板
-            var htmlStr = template('tem_hot', res)
+            let htmlStr = template('tem_hot', res)
             $("#hot_rank").html(htmlStr)
         } else {
-            bootbox.alert(res.msg)
+            bootbox.alert(msg)
         }
     })
 
     // 文章列表
     function getAndShow(params) {
         article.getList(id, CurPage).then(function (res) {
-            if (res.code === 200) {
+            let {
+                code,
+                msg,
+                pages
+            } = res
+            if (code === 200) {
 
                 // 文章列表模板
-                var htmlStr = template('tem_list', res);
+                let htmlStr = template('tem_list', res);
                 $("#list_content").html(htmlStr);
-                if (res.pages == 1) {
+                if (pages == 1) {
                     return
                 }
                 // 分页器
                 $('#pagination-demo').twbsPagination({
-                    totalPages: res.pages,
+                    totalPages: pages,
                     visiblePages: 6,
                     first: '首页',
                     last: '尾页',
@@ -338,7 +351,7 @@
                     }
                 });
             } else {
-                bootbox.alert(res.msg)
+                bootbox.alert(msg)
             }
         })
     }

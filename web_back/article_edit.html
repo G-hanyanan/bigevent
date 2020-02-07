@@ -94,49 +94,69 @@
     {{/each}}
 </script>
 <script>
-    var id = window.location.search.substr(4)
+    let id = window.location.search.substr(4)
     // 编辑页面的数据渲染
     function getAndShow() {
         article.getById(id).then(function (res) {
-            if (res.code === 200) {
-                $("#title").val(res.data.title);
-                $("#previewImg").attr('src', res.data.cover);
-                $("#dateinput").val(res.data.date);
-                $("#cate").val(res.data.type)
+            let {
+                code,
+                msg,
+                data
+            } = res
+            if (code === 200) {
+                let {
+                    title,
+                    cover,
+                    date,
+                    type,
+                    content,
+                }
+                $("#title").val(title);
+                $("#previewImg").attr('src', cover);
+                $("#dateinput").val(date);
+                $("#cate").val(type)
 
                 // 富文本编辑器内容
                 setTimeout(function () {
-                    tinymce.activeEditor.setContent(res.data.content)
+                    tinymce.activeEditor.setContent(content)
                 }, 1000)
             } else {
-                botbox.alert(res.msg)
+                botbox.alert(msg)
             }
         })
     }
 
     // 所有分类
     category.get().then(function (res) {
-        if (res.code === 200) {
-            var htmlStr = template('category', res)
+        let {
+            code,
+            msg,
+        } = res
+        if (code === 200) {
+            let htmlStr = template('category', res)
             $("#cate").html(htmlStr);
             getAndShow()
         } else {
-            botbox.alert(res.msg)
+            botbox.alert(msg)
         }
     })
 
     // 点击修改，请求接口
 
     $("#save").click(function () {
-        var fd = new FormData(document.getElementById('form'));
+        let fd = new FormData(document.getElementById('form'));
         fd.append('id', id)
         // 获取富文本的内容
         fd.set('content', tinyMCE.activeEditor.getContent())
         article.edit(fd).then(function (res) {
-            if (res.code === 200) {
+            let {
+                code,
+                msg,
+            } = res
+            if (code === 200) {
                 botbox.alert('修改成功')
             } else {
-                botbox.alert(res.msg)
+                botbox.alert(msg)
             }
         })
     })

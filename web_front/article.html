@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>大事件-文章</title>
-        <link rel="stylesheet" type="text/css" href="css/reset.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script src="./js/jquery-1.12.4.min.js"></script>
-        <!-- alert弹出框 -->
-        <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
-        <script src="./js/bootstrap/js/bootstrap.min.js"></script>
-        <script src="./js/bootbox.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大事件-文章</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <!-- alert弹出框 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/bootbox.min.js"></script>
 </head>
 
 <body>
@@ -104,8 +104,8 @@
                 4条评论
             </div>
 
-            <div class="comment_list_con"  id="com_list">
-                <div class="comment_detail_list" >
+            <div class="comment_list_con" id="com_list">
+                <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
@@ -256,7 +256,7 @@
         {{/each}}
     </script>
     <script>
-        var id = window.location.search.substr(4);
+        let id = window.location.search.substr(4);
 
         // 时间处理插件初始化
         dayjs.locale('zh-cn');
@@ -264,76 +264,103 @@
 
         // 获取文章类型列表
         category.get().then(function (res) {
-            if (res.code === 200) {
+            let {
+                code,
+                msg,
+            } = res
+            if (code === 200) {
                 // 补充数据
                 res.curId = id
                 // 导航栏文章类别模板
-                var htmlStr = template('tem_cate', res)
+                let htmlStr = template('tem_cate', res)
                 $(".level_two").append(htmlStr)
                 $(".left_menu").html(htmlStr)
             } else {
                 // alert(res.msg)
-                bootbox.alert(res.msg)
+                bootbox.alert(msg)
             }
         })
 
         // 文章信息
         article.getById(id).then(function (res) {
-            if (res.code === 200) {
+            let {
+                code,
+                msg,
+                data
+            } = res
+            if (code === 200) {
+                let {
+                    title,
+                    author,
+                    date,
+                    type_name,
+                    comment,
+                    content,
+                    next,
+                    prev,
+                    read,
+                    type_id
+                } = data
 
                 // 一周热门排行
-                article.rank(res.data.type_id).then(function (res) {
-                    if (res.code === 200) {
-                        
+                article.rank(type_id).then(function (res) {
+                    let {
+                        code,
+                        msg,
+                    } = res
+                    if (code === 200) {
+
                         // 热门排行模板
-                        var htmlStr = template('aaa', res)
+                        let htmlStr = template('aaa', res)
                         $("#hot_rank").html(htmlStr)
                     } else {
-                        bootbox.alert(res.msg)
+                        bootbox.alert(msg)
                     }
                 })
-                
+
                 // 文章标题
-                $("#title").text(res.data.title);
+                $("#title").text(title);
                 // 作者
-                $("#author").text(res.data.author);
+                $("#author").text(author);
                 // 发布时间
-                $("#date").text(res.data.date);
+                $("#date").text(date);
                 // 文章分类
-                $("#type_name").text(res.data.type_name);
+                $("#type_name").text(type_name);
                 // 阅读量
-                $("#read").text(res.data.read);
+                $("#read").text(read);
                 // 评论数量
-                $("#comment").text(res.data.comment);
+                $("#comment").text(comment);
                 // 文章内容
-                $("#content").html(res.data.content);
+                $("#content").html(content);
                 // 上一篇
-                if (res.data.next) {
-                    $("#next").attr('href','article.html?id=' + res.data.next.id);
-                    $("#next").text(res.data.next.title)
+                if (next) {
+                    $("#next").attr('href', 'article.html?id=' + next.id);
+                    $("#next").text(next.title)
                 } else {
                     $("#next").text('无')
                 }
                 // 下一篇
-                if (res.data.prev) {
-                    $("#prev").attr('href',"article.html?id=" + res.data.prev.id);
-                    $("#prev").text(res.data.prev.title)
+                if (prev) {
+                    $("#prev").attr('href', "article.html?id=" + prev.id);
+                    $("#prev").text(prev.title)
                 } else {
                     $("#prev").text('无')
                 }
+            } else {
+                bootbox.alert(msg)
             }
         })
 
         // 获取评论并显示
         function getComment() {
             comment.get(id).then(function (res) {
-                if(res.code === 200) {
+                if (res.code === 200) {
                     // 处理评论时间戳
-                    res.data.forEach(function(item) {
+                    res.data.forEach(function (item) {
                         item.relativeTime = dayjs(item.dt).fromNow()
                     })
 
-                    var htmlStr = template('tem_com_list',res);
+                    let htmlStr = template('tem_com_list', res);
 
                     $("#com_list").html('')
                     $("#com_list").html(htmlStr)
@@ -347,23 +374,23 @@
         // 添加评论
         // 添加点击事件
         $("#comment_btn").click(function () {
-            var name = $("#comment_name").val();
-            var content = $("#comment_content").val();
+            let name = $("#comment_name").val();
+            let content = $("#comment_content").val();
             // 判空
-            if (!name ||!content) {
+            if (!name || !content) {
                 bootbox.alert('不能为空')
                 return
             }
-            comment.add(name,content,id).then(function (res) {
-                if(res.code === 200) {
+            comment.add(name, content, id).then(function (res) {
+                if (res.code === 200) {
                     bootbox.alert(res.msg);
                     getComment()
                 } else {
                     bootbox.alert(res.msg)
                 }
-                
+
             })
-            
+
         })
     </script>
 </body>

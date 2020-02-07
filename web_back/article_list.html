@@ -126,34 +126,36 @@
         {{/each}}
     </script>
     <script>
-        var CurPage = 1;
-        var type = '';
-        var status = '';
-        var CurTotalPages;
-
+        let [CurPage,type, status ,CurTotalPages] = [1,"",'']
+        
         // 获取所有分类，显示在下拉列表中
         category.get().then(function (res) {
-            var htmlStr = template('tem_category', res);
+            let htmlStr = template('tem_category', res);
             $("#selCategory").html(htmlStr)
         })
 
         // 获取文章列表，并显示在表格中
         function getAndShow() {
             article.get(CurPage, type, status).then(function (res) {
-                if (res.code === 200) {
+                let {
+                    code,
+                    msg,
+                    totalPage
+                } = res
+                if (code === 200) {
                     // 渲染到页面
-                    var htmlStr = template('tem_table', res);
+                    let htmlStr = template('tem_table', res);
                     $("#tbody").html(htmlStr);
                     // 解决筛选时，总页码发生改变的BUG
                     // 如果总页码发生改变，就将分页器摧毁重建
-                    if (CurTotalPages !== res.totalPage) {
+                    if (CurTotalPages !== totalPage) {
                         $('#pagination-demo').twbsPagination('destroy')
-                        CurTotalPages = res.totalPage;
+                        CurTotalPages = totalPage;
 
                     }
                     // 分页器
                     $('#pagination-demo').twbsPagination({
-                        totalPages: res.totalPage,
+                        totalPages: totalPage,
                         visiblePages: 6,
                         first: '首页',
                         last: '尾页',
@@ -167,7 +169,7 @@
                         }
                     });
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
             })
         }
@@ -188,12 +190,16 @@
             if (!confirm('你确定要删除吗?')) {
                 return
             }
-            var id = $(this).attr('data-id');
+            let id = $(this).attr('data-id');
             article.del(id).then(function (res) {
-                if (res.code === 200) {
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 200) {
                     getAndShow()
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
 
             })

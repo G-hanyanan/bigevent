@@ -98,15 +98,20 @@
 </script>
 <script>
     $(".btn-success").click(function () {
-        var fd = new FormData(document.getElementById('myform'));
+        let fd = new FormData(document.getElementById('myform'));
         fd.append('state', '已发布')
         // 获取富文本的内容
         fd.set('content', tinyMCE.activeEditor.getContent())
         article.add(fd).then(function (res) {
-            if (res.code === 201) {
+            let {
+                code,
+                msg
+            } = res
+            if (code === 201) {
                 bootbox.alert('发布成功')
                 $("#myform")[0].reset()
-
+            } else {
+                bootbox.alert(msg)
             }
 
         })
@@ -114,22 +119,26 @@
 
     // 获取文章类别列表
     category.get().then(function (res) {
-        if (res.code === 200) {
-            var htmlStr = template('tem_list', res);
+        let {
+            code,
+            msg
+        } = res
+        if (code === 200) {
+            let htmlStr = template('tem_list', res);
             $('.form-control').html(htmlStr)
         } else {
-            bootbox.alert(res.msg)
+            bootbox.alert(msg)
         }
     })
 
     // 封面图片预览
     $("#cover").change(function () {
-        var curFile = this.files[0];
+        let curFile = this.files[0];
         // console.log(!curFile);
         if (!curFile) {
             return
         }
-        var curFileUrl = URL.createObjectURL(curFile)
+        let curFileUrl = URL.createObjectURL(curFile)
         // console.log(URL.createObjectURL(curFile));
         $("#img").attr('src', curFileUrl)
     })

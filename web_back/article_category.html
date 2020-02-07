@@ -147,16 +147,20 @@
         // 文章获取并显示
         function getAndShow() {
             category.get().then(function (res) {
-                if (res.code === 200) {
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 200) {
                     $("#category_tbd").empty()
-                    var htmlStr = template('category_list', res);
+                    let htmlStr = template('category_list', res);
                     // console.log(res);
 
                     $("#category_tbd").append(htmlStr)
                     // console.log(htmlStr);
 
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
             })
         }
@@ -164,23 +168,27 @@
         getAndShow();
         // 文章类别新增
         $("#model_add").on('click', function () {
-            var name = $("#name").val().trim();
-            var sulg = $("#sulg").val().trim();
+            let name = $("#name").val().trim();
+            let sulg = $("#sulg").val().trim();
             if (name === "" || sulg === '') {
                 bootbox.alert("不能为空")
             }
             category.add(name, sulg).then(function (res) {
+                let {
+                    code,
+                    msg,
+                } = res
                 // 清空用户输入
                 $("#name").val("");
                 $("#sulg").val("");
                 // 隐藏模态框
                 $('#addModal').modal('hide');
                 // 重新获取数据
-                if (res.code === 200) {
+                if (code === 200) {
                     // bootbox.alert("增加成功")
                     getAndShow()
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
             })
         })
@@ -195,15 +203,19 @@
             if (!confirm('确定删除吗？')) {
                 return
             }
-            var id = $(this).attr('data-id');
+            let id = $(this).attr('data-id');
 
             // bootbox.alert($(this).attr('data-id'))
             category.del(id).then(function (res) {
-                if (res.code === 200) {
-                    // bootbox.alert(res.msg)
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 200) {
+                    // bootbox.alert(msg)
                     getAndShow()
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
 
             })
@@ -212,9 +224,9 @@
         // 文章类别编辑
         // 事件委托
         $("#category_tbd").on('click', '#edit', function () {
-            var id = $(this).attr("data-id");
-            var name = $(this).attr("data-name");
-            var slug = $(this).attr("data-slug");
+            let id = $(this).attr("data-id");
+            let name = $(this).attr("data-name");
+            let slug = $(this).attr("data-slug");
             // 显示编辑模态框
             $("#edit_id").val(id);
             $("#edit_name").val(name);
@@ -223,21 +235,25 @@
         })
         // 点击保存，请求接口
         $("#model_save").click(function () {
-            var id = $("#edit_id").val().trim();
-            var new_name = $("#edit_name").val().trim();
-            var new_slug = $("#edit_slug").val().trim();
+            let id = $("#edit_id").val().trim();
+            let new_name = $("#edit_name").val().trim();
+            let new_slug = $("#edit_slug").val().trim();
             if (new_name === "" || new_slug === "") {
                 bootbox.alert('不能为空')
                 return
             } else {
                 category.edit(id, new_name, new_slug).then(function (res) {
-                    if (res.code === 200) {
+                    let {
+                    code,
+                    msg,
+                } = res
+                    if (code === 200) {
                         // 隐藏模态框
                         $("#editModal").modal('hide');
                         // 重新获取数据
                         getAndShow()
                     } else {
-                        bootbox.alert(res.msg)
+                        bootbox.alert(msg)
                     }
                 })
             }

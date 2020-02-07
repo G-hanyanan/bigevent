@@ -42,15 +42,21 @@
     <script>
         // 用户登录
         $("#btnLogin").click(function () {
-            var name = $("#username").val().trim();
-            var password = $("#password").val().trim();
+            let name = $("#username").val().trim();
+            let password = $("#password").val().trim();
             user.login(name, password)
                 .then(function (res) {
-                    if (res.code === 200) {
+                    let {
+                        code,
+                        msg
+                    } = res
+                    console.log(code);
+                    
+                    if (code === 200) {
                         //    alert('登录成功') 
                         window.location.href = './index.html'
                     } else {
-                        bootbox.alert(res.msg)
+                        bootbox.alert(msg)
                     }
                 })
         })
