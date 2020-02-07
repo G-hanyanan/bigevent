@@ -86,14 +86,14 @@
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input type="text" placeholder="请输入用户名" class="comment_name" id="comment_name">
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea placeholder="请发表您的评论" class="comment_input" id="comment_content"></textarea>
                 </div>
                 <div class="form_group">
-                    <input type="submit" name="" value="评 论" class="comment_sub"></div>
+                    <input type="button" name="" value="评 论" class="comment_sub" id="comment_btn"></div>
             </form>
 
             <div class="comment_count">
@@ -329,6 +329,8 @@
                     })
 
                     var htmlStr = template('tem_com_list',res);
+
+                    $("#com_list").html('')
                     $("#com_list").html(htmlStr)
                 } else {
                     alert(res.msg)
@@ -337,6 +339,27 @@
         }
         getComment()
 
+        // 添加评论
+        // 添加点击事件
+        $("#comment_btn").click(function () {
+            var name = $("#comment_name").val();
+            var content = $("#comment_content").val();
+            // 判空
+            if (!name ||!content) {
+                alert('不能为空')
+                return
+            }
+            comment.add(name,content,id).then(function (res) {
+                if(res.code === 200) {
+                    alert(res.msg);
+                    getComment()
+                } else {
+                    alert(res.msg)
+                }
+                
+            })
+            
+        })
     </script>
 </body>
 
