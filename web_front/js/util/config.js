@@ -33,5 +33,6 @@ var APILIST = {
     // 最新评论
     // comment_news:BASEURL + '/get_latest_comment',
 
-
+    // 获取评论
+    comment_get:BASEURL + '/get_comments',
 }

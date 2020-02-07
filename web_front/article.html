@@ -100,8 +100,8 @@
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
+            <div class="comment_list_con"  id="com_list">
+                <div class="comment_detail_list" >
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
@@ -212,11 +212,16 @@
     <script src="./js/util/category.js"></script>
     <script src="./js/util/article.js"></script>
     <script src="./js/util/comment.js"></script>
-    <!-- 上、下一篇模板
-    <script id="tem_links" type="text/html">
-        上一篇： <a href="article.html?id={{data.next.id}}">{{data.next.title}}</a><br>
-        下一篇： <a href="article.html?id={{data.prev.id}}">{{data.prev.title}}</a>
-    </script> -->
+    <!-- 评论列表模板 -->
+    <script id="tem_com_list" type="text/html">
+        {{each data item}}
+            <div class="comment_detail_list" >
+                <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+                <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+                <div class="comment_text fl">{{item.content}}</div>
+            </div>
+        {{/each}}
+    </script>
     <!-- 导航栏文章类别模板 -->
     <script id="tem_cate" type="text/html">
         {{each data item}}
@@ -288,26 +293,35 @@
                 $("#comment").text(res.data.comment);
                 // 文章内容
                 $("#content").html(res.data.content);
-                // 上、下一篇
+                // 上一篇
                 if (res.data.next) {
                     $("#next").attr('href','article.html?id=' + res.data.next.id);
                     $("#next").text(res.data.next.title)
                 } else {
                     $("#next").text('无')
                 }
-
+                // 下一篇
                 if (res.data.prev) {
                     $("#prev").attr('href',"article.html?id=" + res.data.prev.id);
                     $("#prev").text(res.data.prev.title)
                 } else {
                     $("#prev").text('无')
                 }
-                
-
             }
-
         })
 
+        // 获取评论并显示
+        function getComment() {
+            comment.get(id).then(function (res) {
+                if(res.code === 200) {
+                    var htmlStr = template('tem_com_list',res);
+                    $("#com_list").html(htmlStr)
+                } else {
+                    alert(res.msg)
+                }
+            })
+        }
+        getComment()
 
     </script>
 </body>
