@@ -287,7 +287,7 @@
 
     // 显示导航菜单，并当前菜单高亮显示
     // 获取文章类型列表
-    category.get().then(function (res) {
+    category.get().then(res => {
         let {
             code,
             msg,
@@ -305,7 +305,7 @@
     })
 
     // 一周热门排行
-    article.rank(id).then(function (res) {
+    article.rank(id).then(res => {
         let {
             code,
             msg,
@@ -321,7 +321,7 @@
 
     // 文章列表
     function getAndShow(params) {
-        article.getList(id, CurPage).then(function (res) {
+        article.getList(id, CurPage).then(res => {
             let {
                 code,
                 msg,
@@ -344,7 +344,7 @@
                     prev: '上一页',
                     next: '下一页',
                     initiateStartPageClick: false,
-                    onPageClick: function (event, page) {
+                    onPageClick: (event, page) => {
                         // alert(page)
                         CurPage = page;
                         getAndShow()

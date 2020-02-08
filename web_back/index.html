@@ -64,7 +64,7 @@
     </div>
 
 
-
+    <!-- 原有代码 -->
     <script>
         let $level01 = $('.level01');
         let $subli = $('.level02 li')
@@ -90,7 +90,7 @@
             }
         })
 
-        function resizeFrame() {
+        resizeFrame = () => {
             let frame_w = $('#main_body').outerWidth();
             let frame_h = $('#main_body').outerHeight();
             $('#main_frame').css({ 'width': frame_w, 'height': frame_h });
@@ -98,12 +98,12 @@
 
         resizeFrame();
 
-        $(window).resize(function () {
+        $(window).resize(() => {
             resizeFrame();
         })
 
 
-        function setMenu(m, n) {
+        setMenu = (m, n) => {
             $level01.eq(m).addClass('active').siblings().not('.level02').removeClass('active');
             if (m != 1) {
                 $('.level02').slideUp();
@@ -114,34 +114,34 @@
         }
 
     </script>
+
     <!-- 引入接口配置 -->
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/user.js"></script>
     <script>
         // 用户登出
-        $("#logout").click(function () {
-            user.logout()
-            console.log(user.logout());
-
-            user.logout().then(function (res) {
+        $("#logout").click(() => {
+            
+            user.logout().then(res => {
                 let {
-                    code
+                    code,
+                    msg
                 } = res
                 if (code === 200) {
                     bootbox.alert('退出成功')
                     window.location.href = './login.html'
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
             })
         })
 
         // 获取管理员信息，并显示
-        user.logInfo()
-            .then(function (res) {
+        user.logInfo().then(res => {
                 let {
                     code,
-                    msg
+                    msg,
+                    data
                 } = res
                 if (code === 200) {
                     $("#userName").text(data.nickname);

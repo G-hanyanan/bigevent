@@ -1,9 +1,7 @@
 // 文章分类
 
-var category = {
+const category = {
     // 获取
-    get: function () {
-        return $.get(APILIST.category_get)
-    },
+    get: () => $.get(APILIST.category_get),
 
 }

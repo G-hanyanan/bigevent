@@ -1,37 +1,31 @@
 // 文章列表
 
-var article = {
+const article = {
     // 获取
-    get: function (page, type, status) {
-        return $.get(APILIST.article_get, { 'page': page, 'type': type, 'state': status })
-    },
+    get: (page, type, status) => $.get(APILIST.article_get, { page,  type, 'state': status }),
+
     // 新增
-    add: function (fd) {
-        return $.ajax({
+    add: fd => $.ajax({
             url: APILIST.article_add,
             type: 'post',
             data: fd ,
             processData: false,
             contentType: false
-        })
-    },
+        }),
+
     // 删除
-    del: function (id) {
-        return $.get(APILIST.article_del, { 'id': id })
-    },
+    del: id => $.get(APILIST.article_del, {  id }),
+
     // 通过id获取文章
-    getById:function (id) {
-        return $.get(APILIST.article_get,{'id':id})
-    },
+    getById: id => $.get(APILIST.article_get,{id}),
+
     // 编辑文章
-    edit: function (fd) {
-        return $.ajax({
+    edit: fd => $.ajax({
             url: APILIST.article_edit,
             type: 'post',
             data: fd ,
             processData: false,
             contentType: false
-        })
-    },
+        }),
 
 }

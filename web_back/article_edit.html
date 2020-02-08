@@ -96,8 +96,8 @@
 <script>
     let id = window.location.search.substr(4)
     // 编辑页面的数据渲染
-    function getAndShow() {
-        article.getById(id).then(function (res) {
+     getAndShow = () => {
+        article.getById(id).then(res => {
             let {
                 code,
                 msg,
@@ -110,14 +110,14 @@
                     date,
                     type,
                     content,
-                }
+                } = data
                 $("#title").val(title);
                 $("#previewImg").attr('src', cover);
                 $("#dateinput").val(date);
                 $("#cate").val(type)
 
                 // 富文本编辑器内容
-                setTimeout(function () {
+                setTimeout( () => {
                     tinymce.activeEditor.setContent(content)
                 }, 1000)
             } else {
@@ -127,7 +127,7 @@
     }
 
     // 所有分类
-    category.get().then(function (res) {
+    category.get().then(res => {
         let {
             code,
             msg,
@@ -143,12 +143,12 @@
 
     // 点击修改，请求接口
 
-    $("#save").click(function () {
+    $("#save").click( () => {
         let fd = new FormData(document.getElementById('form'));
         fd.append('id', id)
         // 获取富文本的内容
         fd.set('content', tinyMCE.activeEditor.getContent())
-        article.edit(fd).then(function (res) {
+        article.edit(fd).then(res => {
             let {
                 code,
                 msg,

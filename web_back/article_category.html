@@ -38,8 +38,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
-                            <a href="#" class="btn btn-success" id="article_btn" data-toggle="modal"
-                                data-target="#addModal">新增分类</a>
+                            <a href="#" class="btn btn-success" id="article_btn" data-toggle="modal" data-target="#addModal">新增分类</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -145,8 +144,8 @@
 
     <script>
         // 文章获取并显示
-        function getAndShow() {
-            category.get().then(function (res) {
+         getAndShow = () => {
+            category.get().then(res => {
                 let {
                     code,
                     msg,
@@ -167,13 +166,13 @@
 
         getAndShow();
         // 文章类别新增
-        $("#model_add").on('click', function () {
+        $("#model_add").on('click', () => {
             let name = $("#name").val().trim();
             let sulg = $("#sulg").val().trim();
             if (name === "" || sulg === '') {
                 bootbox.alert("不能为空")
             }
-            category.add(name, sulg).then(function (res) {
+            category.add(name, sulg).then(res => {
                 let {
                     code,
                     msg,
@@ -193,9 +192,7 @@
             })
         })
         // 点击关闭 隐藏模态框
-        $("#model_shutoff").click(function () {
-            $('#addModal').modal('hide');
-        })
+        $("#model_shutoff").click( () => $('#addModal').modal('hide'))
 
         // 文章类别删除
         // 事件委托
@@ -206,7 +203,7 @@
             let id = $(this).attr('data-id');
 
             // bootbox.alert($(this).attr('data-id'))
-            category.del(id).then(function (res) {
+            category.del(id).then(res => {
                 let {
                     code,
                     msg,
@@ -234,7 +231,7 @@
             $("#editModal").modal('show');
         })
         // 点击保存，请求接口
-        $("#model_save").click(function () {
+        $("#model_save").click( () => {
             let id = $("#edit_id").val().trim();
             let new_name = $("#edit_name").val().trim();
             let new_slug = $("#edit_slug").val().trim();
@@ -242,7 +239,7 @@
                 bootbox.alert('不能为空')
                 return
             } else {
-                category.edit(id, new_name, new_slug).then(function (res) {
+                category.edit(id, new_name, new_slug).then(res => {
                     let {
                     code,
                     msg,
@@ -259,9 +256,7 @@
             }
         })
         // 点击关闭，关闭模态框
-        $("#model_shutoff").click(function () {
-            $('#editModal').modal('hide');
-        })
+        $("#model_shutoff").click( () => $('#editModal').modal('hide'))
     </script>
 
 </body>

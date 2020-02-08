@@ -96,12 +96,14 @@
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/article.js"></script>
     <script src="./js/jquery.twbsPagination.js"></script>
+    <!-- 原有代码 -->
     <script>
         // 设置左侧菜单
-        $('#release_btn').click(function () {
+        $('#release_btn').click( () => {
             window.parent.setMenu(1, 1);
         })
     </script>
+
     <!-- 文章所有分类模板 -->
     <script id="tem_category" type="text/html">
         <option value = ''>所有分类</option>
@@ -129,14 +131,14 @@
         let [CurPage,type, status ,CurTotalPages] = [1,"",'']
         
         // 获取所有分类，显示在下拉列表中
-        category.get().then(function (res) {
+        category.get().then(res => {
             let htmlStr = template('tem_category', res);
             $("#selCategory").html(htmlStr)
         })
 
         // 获取文章列表，并显示在表格中
-        function getAndShow() {
-            article.get(CurPage, type, status).then(function (res) {
+        getAndShow = () => {
+            article.get(CurPage, type, status).then(res => {
                 let {
                     code,
                     msg,
@@ -162,7 +164,7 @@
                         prev: '上一页',
                         next: '下一页',
                         initiateStartPageClick: false,
-                        onPageClick: function (event, page) {
+                        onPageClick: (event, page) => {
                             // alert(page)
                             CurPage = page;
                             getAndShow()
@@ -177,7 +179,7 @@
         getAndShow()
 
         // 筛选功能
-        $("#btnSearch").click(function () {
+        $("#btnSearch").click( () => {
             CurPage = 1;
             type = $("#selCategory").val();
             status = $("#selStatus").val();
@@ -191,7 +193,7 @@
                 return
             }
             let id = $(this).attr('data-id');
-            article.del(id).then(function (res) {
+            article.del(id).then(res => {
                 let {
                     code,
                     msg,

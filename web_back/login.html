@@ -42,9 +42,9 @@
     <script>
         // 用户登录
         $("#btnLogin").click(function () {
-            let name = $("#username").val().trim();
+            let user_name = $("#username").val().trim();
             let password = $("#password").val().trim();
-            user.login(name, password)
+            user.login(user_name, password)
                 .then(function (res) {
                     let {
                         code,

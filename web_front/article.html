@@ -263,7 +263,7 @@
         dayjs.extend(dayjs_plugin_relativeTime);
 
         // 获取文章类型列表
-        category.get().then(function (res) {
+        category.get().then(res => {
             let {
                 code,
                 msg,
@@ -282,7 +282,7 @@
         })
 
         // 文章信息
-        article.getById(id).then(function (res) {
+        article.getById(id).then(res => {
             let {
                 code,
                 msg,
@@ -303,7 +303,7 @@
                 } = data
 
                 // 一周热门排行
-                article.rank(type_id).then(function (res) {
+                article.rank(type_id).then(res => {
                     let {
                         code,
                         msg,
@@ -353,19 +353,23 @@
 
         // 获取评论并显示
         function getComment() {
-            comment.get(id).then(function (res) {
-                if (res.code === 200) {
+            comment.get(id).then(res => {
+                let {
+                    code,
+                    msg,
+                    data
+                }=res
+                
+                if (code === 200) {
                     // 处理评论时间戳
-                    res.data.forEach(function (item) {
-                        item.relativeTime = dayjs(item.dt).fromNow()
-                    })
+                    data.forEach(item => item.relativeTime = dayjs(item.dt).fromNow())
 
                     let htmlStr = template('tem_com_list', res);
 
                     $("#com_list").html('')
                     $("#com_list").html(htmlStr)
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
             })
         }
@@ -373,7 +377,7 @@
 
         // 添加评论
         // 添加点击事件
-        $("#comment_btn").click(function () {
+        $("#comment_btn").click(() => {
             let name = $("#comment_name").val();
             let content = $("#comment_content").val();
             // 判空
@@ -381,14 +385,17 @@
                 bootbox.alert('不能为空')
                 return
             }
-            comment.add(name, content, id).then(function (res) {
-                if (res.code === 200) {
-                    bootbox.alert(res.msg);
+            comment.add(name, content, id).then(res => {
+                let {
+                    code,
+                    msg,
+                }= res
+                if (code === 200) {
+                    bootbox.alert(msg);
                     getComment()
                 } else {
-                    bootbox.alert(res.msg)
+                    bootbox.alert(msg)
                 }
-
             })
 
         })

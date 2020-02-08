@@ -97,12 +97,12 @@
     {{/each}}
 </script>
 <script>
-    $(".btn-success").click(function () {
+    $(".btn-success").click(() => {
         let fd = new FormData(document.getElementById('myform'));
         fd.append('state', '已发布')
         // 获取富文本的内容
         fd.set('content', tinyMCE.activeEditor.getContent())
-        article.add(fd).then(function (res) {
+        article.add(fd).then(res => {
             let {
                 code,
                 msg
@@ -118,7 +118,7 @@
     })
 
     // 获取文章类别列表
-    category.get().then(function (res) {
+    category.get().then(res => {
         let {
             code,
             msg
@@ -132,7 +132,7 @@
     })
 
     // 封面图片预览
-    $("#cover").change(function () {
+    $("#cover").change(() => {
         let curFile = this.files[0];
         // console.log(!curFile);
         if (!curFile) {

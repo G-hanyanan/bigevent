@@ -1,12 +1,12 @@
 // 所有接口的基地址
 
-var BASEURL = 'http://localhost:8000'
-// var BASEURL = 'http://192.168.1.106:8000'
-// var BASEURL = 'http://39.99.130.170:8000'
+const BASEURL = 'http://localhost:8000'
+// const BASEURL = 'http://192.168.1.106:8000'
+// const BASEURL = 'http://39.99.130.170:8000'
 
 // 所有子接口
 
-var APILIST = {
+const APILIST = {
     // 用户登录接口
     user_login: BASEURL + '/admin/login',
     user_logout: BASEURL + '/admin/logout',

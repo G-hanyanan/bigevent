@@ -1,16 +1,7 @@
-var user = {
-    login: function (name, password) {
-        return $.post(APILIST.user_login, {
-            'user_name': name,
-            'password': password
-        })
-    },
-    logout: function () {
-        return $.post(APILIST.user_logout)
+const user = {
+    login: (user_name, password) => $.post(APILIST.user_login, {user_name,password}),
 
-    },
-    logInfo: function () {
-        return $.get(APILIST.user_Info)
+    logout: () => $.post(APILIST.user_logout),
 
-    }
+    logInfo: () => $.get(APILIST.user_Info)
 }
